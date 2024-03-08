@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/SpotLightComponent.h"
 
 AMainCharacter::AMainCharacter()
 {
@@ -23,6 +24,17 @@ AMainCharacter::AMainCharacter()
 	ViewCamera = CreateDefaultSubobject <UCameraComponent>(TEXT("ViewCamera"));
 	ViewCamera->SetupAttachment(SpringArm);
 	ViewCamera->bUsePawnControlRotation = true;
+
+	FlashlightSpringArm = CreateDefaultSubobject <USpringArmComponent>(TEXT("FlashlightSpringArm"));
+	FlashlightSpringArm->SetupAttachment(ViewCamera);
+	FlashlightSpringArm->TargetArmLength = 10.f;
+	FlashlightSpringArm->bEnableCameraRotationLag = true;
+	FlashlightSpringArm->CameraRotationLagSpeed = 20.f;
+
+	Flashlight = CreateDefaultSubobject <USpotLightComponent>(TEXT("Flashlight"));
+	Flashlight->SetupAttachment(FlashlightSpringArm);
+	Flashlight->AttenuationRadius = 1200.f;
+	Flashlight->bUseIESBrightness = true;
 
 }
 
@@ -51,6 +63,7 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &AMainCharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), IE_Pressed, this, &AMainCharacter::SprintStart);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), IE_Released, this, &AMainCharacter::SprintStop);
+	PlayerInputComponent->BindAction(TEXT("FlashlightToggle"), IE_Pressed, this, &AMainCharacter::ToggleFlashlight);
 
 }
 
@@ -96,5 +109,19 @@ void AMainCharacter::SprintStart()
 void AMainCharacter::SprintStop()
 {
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+}
+
+void AMainCharacter::ToggleFlashlight()
+{
+	if (bLightState)
+	{
+		bLightState = false;
+		Flashlight->SetVisibility(false, false);
+	}
+	else
+	{
+		bLightState = true;
+		Flashlight->SetVisibility(true, false);
+	}
 }
 
