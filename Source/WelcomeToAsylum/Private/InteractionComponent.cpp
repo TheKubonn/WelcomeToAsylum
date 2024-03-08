@@ -33,6 +33,7 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 void UInteractionComponent::PrimaryInteract()
 {
 	FCollisionObjectQueryParams ObjectQueryParams;
+	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
 
 	FVector EyeLocation;

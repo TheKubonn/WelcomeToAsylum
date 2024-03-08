@@ -67,6 +67,7 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction(TEXT("Sprint"), IE_Pressed, this, &AMainCharacter::SprintStart);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), IE_Released, this, &AMainCharacter::SprintStop);
 	PlayerInputComponent->BindAction(TEXT("FlashlightToggle"), IE_Pressed, this, &AMainCharacter::ToggleFlashlight);
+	PlayerInputComponent->BindAction(TEXT("PrimaryInteract"), IE_Pressed, this, &AMainCharacter::PrimaryInteract);
 
 }
 
