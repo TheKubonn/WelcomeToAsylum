@@ -9,6 +9,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class USpotLightComponent;
+class UInteractionComponent;
 
 UCLASS()
 class WELCOMETOASYLUM_API AMainCharacter : public ACharacter
@@ -33,6 +34,7 @@ protected:
 	void SprintStart();
 	void SprintStop();
 	void ToggleFlashlight();
+	void PrimaryInteract();
 
 private:	
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
@@ -46,6 +48,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	TObjectPtr <USpotLightComponent> Flashlight;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr <UInteractionComponent> InteractionComp;
 
 	bool bLightState = true;
 

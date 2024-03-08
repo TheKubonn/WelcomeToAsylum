@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/SpotLightComponent.h"
+#include "InteractionComponent.h"
 
 AMainCharacter::AMainCharacter()
 {
@@ -35,6 +36,8 @@ AMainCharacter::AMainCharacter()
 	Flashlight->SetupAttachment(FlashlightSpringArm);
 	Flashlight->AttenuationRadius = 1200.f;
 	Flashlight->bUseIESBrightness = true;
+
+	InteractionComp = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComp"));
 
 }
 
@@ -122,6 +125,14 @@ void AMainCharacter::ToggleFlashlight()
 	{
 		bLightState = true;
 		Flashlight->SetVisibility(true, false);
+	}
+}
+
+void AMainCharacter::PrimaryInteract()
+{
+	if (InteractionComp)
+	{
+		InteractionComp->PrimaryInteract();
 	}
 }
 
