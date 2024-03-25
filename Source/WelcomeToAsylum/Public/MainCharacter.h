@@ -35,6 +35,8 @@ protected:
 	void SprintStop();
 	void ToggleFlashlight();
 	void PrimaryInteract();
+	void StartCrouch();
+	void StopCrouch();
 
 private:	
 	UPROPERTY(VisibleAnywhere, Category = "Camera")

@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/SpotLightComponent.h"
 #include "InteractionComponent.h"
+#include "Components/CapsuleComponent.h"
 
 AMainCharacter::AMainCharacter()
 {
@@ -68,6 +69,8 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction(TEXT("Sprint"), IE_Released, this, &AMainCharacter::SprintStop);
 	PlayerInputComponent->BindAction(TEXT("FlashlightToggle"), IE_Pressed, this, &AMainCharacter::ToggleFlashlight);
 	PlayerInputComponent->BindAction(TEXT("PrimaryInteract"), IE_Pressed, this, &AMainCharacter::PrimaryInteract);
+	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Pressed, this, &AMainCharacter::StartCrouch);
+	PlayerInputComponent->BindAction(TEXT("Crouch"), IE_Released, this, &AMainCharacter::StopCrouch);
 
 }
 
@@ -135,5 +138,23 @@ void AMainCharacter::PrimaryInteract()
 	{
 		InteractionComp->PrimaryInteract();
 	}
+}
+
+void AMainCharacter::StartCrouch()
+{
+	GetCapsuleComponent()->SetCapsuleHalfHeight(40.f);
+	GetCharacterMovement()->MaxWalkSpeed = 300.f;
+	AMainCharacter::Crouch();
+
+	bIsCrouched = true;
+}
+
+void AMainCharacter::StopCrouch()
+{
+	GetCapsuleComponent()->SetCapsuleHalfHeight(88.f);
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	AMainCharacter::UnCrouch();
+
+	bIsCrouched = false;
 }
 
